@@ -31,10 +31,13 @@ public class TestMain {
     public static void heapTest(){
         int[] arr = new int[]{1,5,3,7,2,8};
         HeapUtils.printHeap(arr);
+        HeapUtils.heapSort(arr);
+        HeapUtils.printHeap(arr);
 //        HeapUtils.heapInsert(arr, 6);
         HeapUtils.swap(arr, 1,3);
         HeapUtils.printHeap(arr);
-
+        System.out.println("================");
+        HeapUtils.sortedArrDistanceLessThanK(arr,4);
     }
 
     /**
