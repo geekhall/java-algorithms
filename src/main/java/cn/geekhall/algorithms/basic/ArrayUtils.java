@@ -23,7 +23,7 @@ public class ArrayUtils {
     }
 
     /**
-     * 归并排序
+     * 数组归并排序。
      * @param arr
      */
     public static void mergeSort(int[] arr){
@@ -32,6 +32,13 @@ public class ArrayUtils {
         }
         mergeSort(arr, 0, arr.length - 1);
     }
+
+    /**
+     * 归并排序内部方法。
+     * @param arr
+     * @param left
+     * @param right
+     */
     public static void mergeSort(int[] arr, int left, int right){
         if (left == right) {
             return;
@@ -42,6 +49,14 @@ public class ArrayUtils {
         mergeSort(arr, mid + 1, right);
         merge(arr, left, mid, right);
     }
+
+    /**
+     * Merge array.
+     * @param arr
+     * @param l
+     * @param m
+     * @param r
+     */
     public static void merge(int[] arr, int l, int m, int r){
         int[] help = new int[r - l + 1];
         int i = 0;
@@ -62,6 +77,30 @@ public class ArrayUtils {
         for (i=0; i< help.length; i++) {
             arr[l + i] = help[i];
         }
+    }
+
+    /**
+     * Return the two array is equal or not.
+     * @param arr1
+     * @param arr2
+     * @return
+     */
+    public static boolean isEqual(int[] arr1, int[] arr2){
+        if ( arr1 == null && arr2 != null || arr1 != null && arr2 == null ) {
+            return false;
+        }
+        if (arr1 == null && arr2 == null) {
+            return true;
+        }
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+        for (int i= 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -97,7 +136,7 @@ public class ArrayUtils {
     }
 
     /**
-     *
+     * Bubble Sort
      * @param arr
      */
     public static void bubbleSort(int[] arr){
@@ -113,4 +152,67 @@ public class ArrayUtils {
         }
     }
 
+    /**
+     * 交换数组i和j位置上的值。
+     * @param arr
+     * @param i
+     * @param j
+     */
+    public static void swap(int[] arr, int i, int j) {
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+
+    public static int[] generateRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int)((maxSize+1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) ((maxValue+1)*Math.random()) - (int)(maxValue * Math.random());
+        }
+        return arr;
+    }
+
+    /**
+     * Array copy method.
+     * 数组拷贝方法。
+     * @param arr
+     * @return
+     */
+    public static int [] copyArray(int[] arr){
+        if (arr == null) {
+            return null;
+        }
+        int[] res = new int[arr.length];
+        for (int i = 0; i<arr.length; i++) {
+            res[i] = arr[i];
+        }
+        return res;
+    }
+
+
+    /**
+     * 返回一个有序数组sortedArr中是否存在数值num。
+     * @param sortedArr
+     * @param num
+     * @return true：存在；false：不存在
+     */
+    public static boolean exist(int[] sortedArr, int num) {
+        if (sortedArr == null || sortedArr.length == 0) {
+            return false;
+        }
+        int l = 0;
+        int r = sortedArr.length - 1;
+        int mid = 0;
+        while (l < r) {
+            mid = l + (r - l)>>1 ;
+            if (sortedArr[mid] == num) {
+                return true;
+            } else if (sortedArr[mid] > num) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return sortedArr[l] == num;
+    }
 }
