@@ -1,6 +1,6 @@
 package cn.geekhall.algorithms.basic.comparator;
 
-import cn.geekhall.cn.geekhall.bean.Student;
+import cn.geekhall.bean.Student;
 
 /**
  * IdComparator.java

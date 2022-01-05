@@ -27,7 +27,8 @@ fi
 
 git add .
 git commit -m "$comment"
-git push
+git push github
+git push gitee
 echo "commit ok"
 
 #/usr/local/bin/python3 /Users/yiny/bin/deploy.py

@@ -1,4 +1,4 @@
-package cn.geekhall.cn.geekhall.bean;
+package cn.geekhall.bean;
 
 /**
  * Student.java

@@ -3,6 +3,9 @@ package cn.geekhall.test;
 import cn.geekhall.algorithms.basic.ArrayUtils;
 import cn.geekhall.algorithms.basic.HeapUtils;
 import cn.geekhall.algorithms.basic.RunnableTest;
+import cn.geekhall.algorithms.problems.SortArrayDistanceLessThanK;
+
+import java.util.PriorityQueue;
 
 public class TestMain {
     /**
@@ -37,7 +40,25 @@ public class TestMain {
         HeapUtils.swap(arr, 1,3);
         HeapUtils.printHeap(arr);
         System.out.println("================");
-        HeapUtils.sortedArrDistanceLessThanK(arr,4);
+        SortArrayDistanceLessThanK.sort(arr, 4);
+    }
+
+    /**
+     * PriorityQueue Test function.
+     * Java中的PriorityQueue其实就是小根堆。
+     */
+    public static void priorityQueueTest(){
+        System.out.println("================");
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(1);
+        pq.add(100);
+        pq.add(30);
+        pq.add(25);
+        System.out.println(pq.poll());
+        System.out.println(pq.poll());
+        System.out.println(pq.poll());
+        System.out.println(pq.poll());
+        System.out.println("================");
     }
 
     /**
@@ -47,6 +68,7 @@ public class TestMain {
     public static void main(String[] args) {
 //        arrayTest();
 //        threadTest();
-        heapTest();
+//        heapTest();
+        priorityQueueTest();
     }
 }

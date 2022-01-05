@@ -4,7 +4,14 @@ import java.util.PriorityQueue;
 
 /**
  * HeapUtils.java
- *
+ * 索引从0开始的堆结构：
+ *     左孩子：2i+1
+ *     右孩子：2i+2
+ *     父节点：(i-1)/2
+ * 索引从1开始的堆结构：
+ *     左孩子：2i   or  i<<1
+ *     右孩子：2i+1 or  i<<1|1
+ *     父节点：i/2  or  i>>1
  * @author yiny
  */
 public class HeapUtils {
@@ -70,6 +77,7 @@ public class HeapUtils {
 
     /**
      * 堆排序
+     * 把堆的最大值和堆末尾的值交换，然后减少堆的大小之后，再去调整堆，堆的大小减小成0之后排序完成。
      * @param arr
      */
     public static void heapSort(int[] arr){
@@ -84,39 +92,6 @@ public class HeapUtils {
         while(heapSize > 0) {
             heapify(arr, 0, heapSize);
             swap(arr, 0, --heapSize);
-        }
-    }
-
-    /**
-     * 题目：给定一个几乎有序的数组（指数组中每个元组排序后移动的距离不会超过k，并且k相对于数组来说比较小）
-     *      选择一个合适的排序算法进行排序。
-     * @param arr
-     * @param k
-     */
-    public static void sortedArrDistanceLessThanK(int[] arr, int k) {
-//        PriorityQueue<Integer> heap = new PriorityQueue<>();
-//        heap.add(8);
-//        heap.add(7);
-//        heap.add(4);
-//        heap.add(2);
-//        heap.add(9);
-//        heap.add(5);
-//
-//        while (!heap.isEmpty()) {
-//            System.out.println(heap.poll());
-//        }
-        PriorityQueue<Integer> heap = new PriorityQueue<>();
-        int index = 0;
-        for (; index <= Math.min(arr.length, k); index++) {
-            heap.add(arr[index]);
-        }
-        int i = 0;
-        for (; index < arr.length; i++, index++) {
-            heap.add(arr[index]);
-            arr[i] = heap.poll();
-        }
-        while (!heap.isEmpty()) {
-            arr[i++] = heap.poll();
         }
     }
 
