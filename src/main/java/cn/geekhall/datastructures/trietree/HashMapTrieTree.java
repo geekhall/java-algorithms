@@ -11,7 +11,21 @@ public class HashMapTrieTree {
      * @param word
      */
     public void insert(String word) {
-
+        if (word == null)
+            return;
+        char[] chars = word.toCharArray();
+        HashMapNode node = root;
+        node.pass++;
+        int index = 0;
+        for (int i = 0; i < chars.length; i++) {
+            index = (int) chars[i];
+            if (!node.nexts.containsKey(index)) {
+                node.nexts.put(index, new HashMapNode());
+            }
+            node = node.nexts.get(index);
+            node.pass++;
+        }
+        node.end++;
     }
 
     /**
@@ -20,7 +34,19 @@ public class HashMapTrieTree {
      * @return
      */
     public int search(String word) {
-        return 0;
+        if (word == null)
+            return 0;
+        char[] chars = word.toCharArray();
+        HashMapNode node = root;
+        int index = 0;
+        for (int i = 0; i < chars.length; i++) {
+            index = chars[i] - 'a';
+            if (!node.nexts.containsKey(index)){
+                return 0;
+            }
+            node = node.nexts.get(index);
+        }
+        return node.end;
     }
 
     /**
@@ -41,15 +67,30 @@ public class HashMapTrieTree {
             }
             node = node.nexts.get(index);
         }
-        return node.nexts.get(index).pass;
+        return node.pass;
     }
+
 
     /**
      * 前缀树中删除字符串word。
      * @param word
      */
     public void delete(String word) {
-
+        if (search(word)!=0) {
+            char[] chars = word.toCharArray();
+            HashMapNode node = root;
+            node.pass--;
+            int index = 0;
+            for(int i = 0; i < chars.length; i++) {
+                index = (int) chars[i];
+                if (--node.nexts.get(index).pass == 0) {
+                    node.nexts.remove(index);
+                    return;
+                }
+                node = node.nexts.get(index);
+            }
+            node.end--;
+        }
     }
 
 

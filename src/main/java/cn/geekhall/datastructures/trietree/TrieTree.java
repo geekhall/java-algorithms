@@ -58,15 +58,13 @@ public class TrieTree {
      * @param word
      */
     public void delete(String word) {
-        if (word == null)
-            return;
         if (search(word) != 0) {
             char[] chars = word.toCharArray();
             Node node = root;
             int index = 0;
             for (int i = 0; i < chars.length; i++) {
                 index = chars[i] - 'a';
-                if (--node.nexts[index].pass == 0) {
+                if (--node.nexts[index].pass == 0) { // 若节点pass值--后已经为零，则置空该节点及以下的节点
                     node.nexts[index] = null;
                     return;
                 }
