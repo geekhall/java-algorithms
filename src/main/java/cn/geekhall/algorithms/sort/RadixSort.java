@@ -1,4 +1,4 @@
-package cn.geekhall.algorithms.basic.sort;
+package cn.geekhall.algorithms.sort;
 
 import cn.geekhall.algorithms.basic.ArrayUtils;
 

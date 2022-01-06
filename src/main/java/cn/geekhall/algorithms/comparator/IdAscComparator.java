@@ -1,4 +1,4 @@
-package cn.geekhall.algorithms.basic.comparator;
+package cn.geekhall.algorithms.comparator;
 
 import cn.geekhall.bean.Student;
 

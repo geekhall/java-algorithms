@@ -1,4 +1,4 @@
-package cn.geekhall.algorithms.basic.sort.heap;
+package cn.geekhall.algorithms.sort.heap;
 
 import java.util.ArrayList;
 import java.util.Comparator;
