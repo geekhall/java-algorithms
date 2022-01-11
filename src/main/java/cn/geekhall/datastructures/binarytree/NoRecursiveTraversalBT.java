@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+/**
+ *
+ */
 public class NoRecursiveTraversalBT {
     public static class Node {
         public int value;
@@ -137,6 +140,7 @@ public class NoRecursiveTraversalBT {
                 queue.add(cur.right);
             }
         }
+        System.out.println("");
     }
 
     /**
@@ -177,6 +181,40 @@ public class NoRecursiveTraversalBT {
         return max;
     }
 
+    /**
+     * 获取二叉树的最大宽度。不使用map的方式。
+     * @param head
+     * @return
+     */
+    public static int getMaxWidth1(Node head) {
+        if (head == null) {
+            return 0;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(head);
+        Node curEnd = head;     // 当前层最右侧节点
+        Node nextEnd = null;    // 下一层最右侧节点
+        int max = 0;
+        int curLevelNodes = 0;  // 当前层的节点数
+        while (!queue.isEmpty()) {
+            Node cur = queue.poll();
+            if (cur.left != null) {
+                queue.add(cur.left);
+                nextEnd = cur.left;
+            }
+            if (cur.right != null) {
+                queue.add(cur.right);
+                nextEnd = cur.right;
+            }
+            curLevelNodes++;
+            if (cur == curEnd) { // 当前层是否处理完了
+                max = Math.max(max, curLevelNodes);
+                curLevelNodes = 0;
+                curEnd = nextEnd;
+            }
+        }
+        return max;
+    }
     public static void main(String[] args) {
         Node n1 = new Node(1);
         Node n2 = new Node(2);
@@ -202,5 +240,7 @@ public class NoRecursiveTraversalBT {
         bfs(n1);
         System.out.println("=========");
         System.out.println(getMaxWidth(n1));
+        System.out.println("=========");
+        System.out.println(getMaxWidth1(n1));
     }
 }
