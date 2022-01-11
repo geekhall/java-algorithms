@@ -1,5 +1,6 @@
 package cn.geekhall.datastructures.binarytree;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -127,7 +128,7 @@ public class NoRecursiveTraversalBT {
         Queue<Node> queue = new LinkedList<>();
         queue.add(head);
         while (!queue.isEmpty()) {
-            Node cur = queue.poll();
+            Node cur = queue.poll();  // 移除并返回队列的头部元素。
             System.out.print(cur.value + " ");
             if (cur.left != null) {
                 queue.add(cur.left);
@@ -136,6 +137,44 @@ public class NoRecursiveTraversalBT {
                 queue.add(cur.right);
             }
         }
+    }
+
+    /**
+     * 获取二叉树的最大宽度。使用map的方式。
+     * @param head
+     */
+    public static int getMaxWidth(Node head) {
+        if (head == null) {
+            return 0;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(head);
+        HashMap<Node, Integer> levelMap = new HashMap<>();
+        levelMap.put(head, 1);
+        int curLevel = 1; // 当前层
+        int curLevelNodes = 0; // 当前层的宽度（节点数）
+        int max = 0;
+        while (!queue.isEmpty()) {
+            Node cur = queue.poll();
+            int  curNodeLevel = levelMap.get(cur);
+            if (cur.left != null) {
+                levelMap.put(cur.left, curNodeLevel + 1);
+                queue.add(cur.left);
+            }
+            if (cur.right != null) {
+                levelMap.put(cur.right, curNodeLevel + 1);
+                queue.add(cur.right);
+            }
+            if (curNodeLevel == curLevel) {
+                curLevelNodes++;
+            } else {
+                max = Math.max(max, curLevelNodes);
+                curLevel++;
+                curLevelNodes = 1;
+            }
+        }
+        max = Math.max(max, curLevelNodes);
+        return max;
     }
 
     public static void main(String[] args) {
@@ -161,5 +200,7 @@ public class NoRecursiveTraversalBT {
         in(n1);
         System.out.println("=========");
         bfs(n1);
+        System.out.println("=========");
+        System.out.println(getMaxWidth(n1));
     }
 }
