@@ -135,6 +135,6 @@ public class SerializeBTSample {
         if (val == null) {
             return null;
         }
-        return new Node(Integer.valueOf(val));
+        return new Node(Integer.parseInt(val));
     }
 }
