@@ -47,6 +47,7 @@ public class TestBST {
         if (node == null) {
             return new Info(true, Integer.MAX_VALUE, Integer.MIN_VALUE);
         }
+        return null;
     }
 
 
