@@ -2,6 +2,7 @@ package cn.geekhall.datastructures.binarytree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * 给定一棵二叉树的头结点head，
@@ -89,7 +90,68 @@ public class BTSample1 {
      * @param j
      * @return
      */
-    public static int distance(HashMap<Node, Node> parentMap, Node i, Node j) {
-        return 0;
+    public static int distance(HashMap<Node, Node> parentMap, Node n1, Node n2) {
+        HashSet<Node> n1Set = new HashSet<>();
+        Node cur = n1;
+        n1Set.add(cur);
+        while(parentMap.get(cur) != null) {
+            cur = parentMap.get(cur);
+            n1Set.add(cur);
+        }
+        cur = n2;
+        while(!n1Set.contains(cur)) {
+            cur = parentMap.get(cur);
+        }
+        Node lowestAncestor = cur;
+        cur = n1;
+        int distance1 = 1;
+        while (cur != lowestAncestor) {
+            cur = parentMap.get(cur);
+            distance1++;
+        }
+        cur = n2;
+        int distance2 = 1;
+        while (cur != lowestAncestor) {
+            cur = parentMap.get(cur);
+            distance2++;
+        }
+        return distance1 + distance2 - 1;
+    }
+
+    public static int maxDistance2(Node head) {
+        return process(head).maxDistance;
+    }
+
+    public static class Info {
+        public int maxDistance;
+        public int height;
+
+        public Info(int dis, int h) {
+            maxDistance = dis;
+            height = h;
+        }
+    }
+
+    public static Info process(Node head) {
+        if (head == null) {
+            return new Info(0, 0);
+        }
+
+        Info left = process(head.left);
+        Info right = process(head.right);
+        int height = Math.max(left.height, right.height) + 1;
+        int maxDistance = Math.max(Math.max(left.maxDistance, right.maxDistance), left.height + right.height + 1);
+        return new Info(maxDistance, height);
+    }
+
+    public static Node generateRandomBST(int maxLevel, int maxValue) {
+        return generate(1, maxLevel, maxValue);
+    }
+
+    public static Node generate(int level, int maxLevel, int maxValue){
+        if (level > maxLevel || Math.random() < 0.5) {
+            return null;
+        }
+        return null;
     }
 }
