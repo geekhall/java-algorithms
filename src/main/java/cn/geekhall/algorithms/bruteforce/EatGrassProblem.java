@@ -32,6 +32,11 @@ public class EatGrassProblem {
         return "后手";
     }
 
+    /**
+     * 打表法
+     * @param n
+     * @return
+     */
     public static String winnerPrintTable(int n) {
         if (n % 5 == 0 || n % 5 == 2) {
             return "后手";
