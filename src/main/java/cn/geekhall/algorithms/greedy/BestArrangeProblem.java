@@ -2,6 +2,9 @@ package cn.geekhall.algorithms.greedy;
 
 import cn.geekhall.datastructures.linkedlist.Problems;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * 安排会议室使得举行会议场次最多。
  * 要求：同一时间只能安排同一场会议。
@@ -20,7 +23,7 @@ public class BestArrangeProblem {
     }
 
     /**
-     * 安排会议室使得举行会议场次最多。
+     * 安排会议室使得举行会议场次最多。(暴力解)
      * @param programs 会议
      * @return 可以安排的会议场次
      */
@@ -67,17 +70,70 @@ public class BestArrangeProblem {
         return ans;
     }
 
+    /**
+     * 安排会议室使得举行会议场次最多。(贪心解)
+     * @param programs
+     * @return
+     */
+    public static int bestArrangeGreedy(Program[] programs) {
+        Arrays.sort(programs, new ProgramComparator());
+        int timeline = 0;
+        int result = 0;
+        for (Program program : programs) {
+            if (timeline <= program.start) {
+                result++;
+                timeline = program.end;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Program比较器类，按照会议结束时间从早到晚排序。
+     */
+    public static class ProgramComparator implements Comparator<Program> {
+
+        @Override
+        public int compare(Program o1, Program o2) {
+            // 根据谁的结束时间早排序。
+            return o1.end - o2.end;
+        }
+    }
+
+    /**
+     * 随机会议生成器
+     * 测试用
+     *
+     * @param programSize 最大会议数量
+     * @param timeMax     最大会议时间
+     * @return            Program[] 会议数组
+     */
+    public static Program[] generatePrograms(int programSize, int timeMax) {
+        Program[] ans = new Program[(int)(Math.random() * (programSize + 1))];
+        for (int i = 0; i < ans.length; i++){
+            int start = (int)(Math.random() * (timeMax));
+            int end = (int)(Math.random() * (timeMax - start + 1)) + start + 1;
+            ans[i] = new Program(start, end);
+        }
+        return ans;
+    }
+
+    /**
+     * 会议打印方法
+     * @param programs 需要打印的会议
+     */
+    public static void printPrograms(Program[] programs) {
+        for (Program p : programs) {
+            System.out.println("["+ p.start + " - " + p.end + "]");
+        }
+    }
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        Program[] programs = {
-                new Program(8,10),
-                new Program(9,11),
-                new Program(12,15),
-                new Program(13,14),
-                new Program(15,16),
-                new Program(8,12),
-                new Program(9,10),
-                new Program(10,11)
-        };
+        Program[] programs = generatePrograms(5, 18);
+        printPrograms(programs);
         System.out.println(bestArrange(programs));
     }
 }
