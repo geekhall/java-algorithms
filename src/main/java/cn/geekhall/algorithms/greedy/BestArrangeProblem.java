@@ -132,8 +132,18 @@ public class BestArrangeProblem {
      * @param args
      */
     public static void main(String[] args) {
-        Program[] programs = generatePrograms(5, 18);
-        printPrograms(programs);
-        System.out.println(bestArrange(programs));
+
+        for (int i = 0; i < 100; i++) {
+            Program[] programs = generatePrograms(5, 18);
+            int resultBruteForce = bestArrange(programs);
+            int resultGreedy = bestArrangeGreedy(programs);
+            if (resultBruteForce != resultGreedy) {
+                System.out.println("Oops!");
+                printPrograms(programs);
+                System.out.println(resultBruteForce);
+                System.out.println(resultGreedy);
+            }
+        }
+        System.out.println("test end!");
     }
 }
