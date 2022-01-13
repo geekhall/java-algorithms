@@ -86,6 +86,6 @@ public class LightProblem {
 
     public static String generateRandomRoad(int len) {
         char[] res = new char[(int) (Math.random() * len) + 1];
-
+        return null;
     }
 }
