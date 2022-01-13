@@ -1,6 +1,7 @@
 package cn.geekhall.algorithms.greedy;
 
 import java.util.HashSet;
+import java.util.Random;
 
 /**
  * 给定一个字符串str，只由"O"和"X"两种字符组成。
@@ -84,8 +85,25 @@ public class LightProblem {
     }
 
 
+    /**
+     * 生成由"O"和"X"组成的随机字符串。
+     * @param len 字符串的最大长度
+     * @return 由"O"和"X"组成的随机字符串
+     */
     public static String generateRandomRoad(int len) {
         char[] res = new char[(int) (Math.random() * len) + 1];
-        return null;
+        for (int i = 0; i < res.length; i++) {
+            res[i] = Math.random() > 0.5 ? 'O' : 'X';
+        }
+        return new String(res);
+    }
+
+    public static void main(String[] args) {
+
+        for (int i = 0; i < 10; i++) {
+            String temp = generateRandomRoad(20);
+            System.out.println(temp + " [min light] :" + minLight(temp));
+            System.out.println(temp + " [min light greedy] : " + minLightGreedy(temp));
+        }
     }
 }
