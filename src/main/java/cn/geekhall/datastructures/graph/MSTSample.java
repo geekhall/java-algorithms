@@ -3,10 +3,11 @@ package cn.geekhall.datastructures.graph;
 import java.util.*;
 
 /**
- * Kruskal最小生成树算法
+ * 最小生成树算法
+ * 主要是Kruskal和Prim算法
  *
  */
-public class KruskalSample {
+public class MSTSample {
     public static class UnionFind {
 
         private HashMap<Node, Node> fatherMap;
@@ -86,6 +87,39 @@ public class KruskalSample {
                 result.add(edge);   // 将这条边加入到结果集中。
                 unionFind.union(edge.from, edge.to);     // 合并
             }
+        }
+        return result;
+    }
+
+    public static Set<Edge> primMST(Graph graph) {
+        PriorityQueue<Edge> priorityQueue = new PriorityQueue<>(new EdgeComparator());
+
+        // 哪些点被解锁出来了。
+        HashSet<Node> nodeSet = new HashSet<>();
+        HashSet<Edge> edgeSet = new HashSet<>();
+
+        Set<Edge> result = new HashSet<>(); // 依次挑选的边在result中
+
+        for (Node node : graph.nodes.values()) { // 随便挑了一个点（当给定题目为森林时使用本行的for循环，否则不需要）
+            if(!nodeSet.contains(node)) {
+                nodeSet.add(node);
+                for (Edge edge : node.edges) { // 由一个点解锁所有相连的边。
+                    if (!edgeSet.contains(edge)) {
+                        edgeSet.add(edge);
+                        priorityQueue.add(edge);
+                    }
+                }
+                while (!priorityQueue.isEmpty()) {
+                    Edge edge = priorityQueue.poll();   // 弹出解锁的边中，最小的彼岸
+                    Node toNode = edge.to;              // 可能的一个新的点
+                    if (!nodeSet.contains(toNode)) {        // set中不包含，表示是新的点
+                        nodeSet.add(toNode);
+                        result.add(edge);
+                        priorityQueue.addAll(toNode.edges);
+                    }
+                }
+            }
+            break;
         }
         return result;
     }
