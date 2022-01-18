@@ -4,7 +4,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * 二叉树使用先序、中序、后序方式遍历序列化、就是用什么方式反序列化。
+ * 二叉树使用先序、后序方式遍历序列化、就是用什么方式反序列化。
+ * 注意：二叉树无法通过中序来序列化和反序列化。
+ * 因为不同的亮棵二叉树可能生成相同的中序序列。
+ * 如：
+ *     2         1
+ *    /     和    \
+ *  1              2
  */
 public class SerializeBTSample {
     public static class Node {
