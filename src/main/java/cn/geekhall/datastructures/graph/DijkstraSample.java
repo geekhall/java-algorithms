@@ -24,6 +24,7 @@ public class DijkstraSample {
 
         Node minNode = getMinDistanceAndUnselectedNode(distanceMap, selectedNodes);
         while (minNode != null) {
+            //  原始点  ->  minNode(跳转点)   最小距离distance
             int distance = distanceMap.get(minNode);
             for (Edge edge : minNode.edges) {
                 Node toNode = edge.to;
@@ -75,8 +76,15 @@ public class DijkstraSample {
         return result;
     }
 
-
-    private static class NodeHeap {
+    public static class NodeRecord {
+        public Node node;
+        public int distance;
+        public NodeRecord(Node node, int distance) {
+            this.node = node;
+            this.distance = distance;
+        }
+    }
+    public static class NodeHeap {
         private Node[] nodes; // 实际的堆结构
 
         private HashMap<Node, Integer> heapIndexMap;
@@ -95,9 +103,14 @@ public class DijkstraSample {
             return size == 0;
         }
 
-        public Node pop(){
-
-            return nodes[nodes.length - 1];
+        public NodeRecord pop(){
+            NodeRecord nodeRecord = new NodeRecord(nodes[0], distanceMap.get(nodes[0]));
+            heapIndexMap.put(nodes[size - 1], -1);
+            distanceMap.remove(nodes[size - 1]);
+            // free C++同学还要把原本堆顶节点析构，对java同学不必
+            nodes[size - 1] = null;
+            heapify(0, --size);
+            return nodeRecord;
         }
 
         private boolean isEntered(Node node) {
@@ -133,14 +146,22 @@ public class DijkstraSample {
                 index = (index - 1) / 2;
             }
         }
-    }
-
-    private static class NodeRecord {
-        public Node node;
-        public int distance;
-        public NodeRecord(Node node, int distance) {
-            this.node = node;
-            this.distance = distance;
+        private void heapify(int index, int size) {
+            int left = index * 2 + 1;
+            while (left < size) {
+                int smallest = left + 1 < size && distanceMap.get(nodes[left + 1]) < distanceMap.get(nodes[left])
+                        ? left + 1
+                        : left;
+                smallest = distanceMap.get(nodes[smallest]) < distanceMap.get(nodes[index]) ? smallest : index;
+                if (smallest == index) {
+                    break;
+                }
+                swap(smallest, index);
+                index = smallest;
+                left = index * 2 + 1;
+            }
         }
     }
+
+
 }
