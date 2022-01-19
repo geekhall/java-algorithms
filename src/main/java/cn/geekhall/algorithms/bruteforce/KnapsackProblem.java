@@ -41,6 +41,7 @@ public class KnapsackProblem {
         }
         return Math.max(p1, p2);
     }
+    
     public static int getMaxValue2(int[] w, int[] v, int bag) {
         return process(w, v, 0, bag);
     }
@@ -67,6 +68,8 @@ public class KnapsackProblem {
         }
         return Math.max(p1, p2);
     }
+
+    public
 
     public static void main(String[] args) {
         int[] weight = new int[]{1,4,5,6,8};
