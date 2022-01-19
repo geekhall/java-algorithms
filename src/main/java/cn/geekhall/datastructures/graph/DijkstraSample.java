@@ -55,6 +55,7 @@ public class DijkstraSample {
 
     /**
      * 使用自定义的小根堆改进后的Dijkstra算法
+     * 从head出发，所有head能到达的节点，生成到达每个节点的最小路径记录并返回
      *
      * @param head
      * @param size
@@ -95,9 +96,14 @@ public class DijkstraSample {
             return size == 0;
         }
 
-        public Node pop(){
-
-            return nodes[nodes.length - 1];
+        public NodeRecord pop(){
+            NodeRecord nodeRecord = new NodeRecord(nodes[0], distanceMap.get(nodes[0]));
+            swap(0, size - 1);
+            heapIndexMap.put(nodes[size - 1], -1);
+            distanceMap.remove(nodes[size - 1]);
+            nodes[size - 1] = null;
+            heapify(0, --size);
+            return nodeRecord;
         }
 
         private boolean isEntered(Node node) {
@@ -133,6 +139,22 @@ public class DijkstraSample {
                 index = (index - 1) / 2;
             }
         }
+        private void heapify(int index, int size) {
+            int left = index * 2 + 1;
+            while (left < size) {
+                int smallest = left + 1 < size && distanceMap.get(nodes[left + 1]) < distanceMap.get(nodes[left])
+                        ? left + 1
+                        : left;
+                smallest = distanceMap.get(nodes[smallest]) < distanceMap.get(nodes[index]) ? smallest : index;
+                if (smallest == index) {
+                    break;
+                }
+                swap(smallest, index);
+                index = smallest;
+                left = index * 2 + 1;
+            }
+        }
+
     }
 
     private static class NodeRecord {
