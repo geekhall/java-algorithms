@@ -24,6 +24,7 @@ public class DijkstraSample {
 
         Node minNode = getMinDistanceAndUnselectedNode(distanceMap, selectedNodes);
         while (minNode != null) {
+            //  原始点  ->  minNode(跳转点)   最小距离distance
             int distance = distanceMap.get(minNode);
             for (Edge edge : minNode.edges) {
                 Node toNode = edge.to;
@@ -76,8 +77,15 @@ public class DijkstraSample {
         return result;
     }
 
-
-    private static class NodeHeap {
+    public static class NodeRecord {
+        public Node node;
+        public int distance;
+        public NodeRecord(Node node, int distance) {
+            this.node = node;
+            this.distance = distance;
+        }
+    }
+    public static class NodeHeap {
         private Node[] nodes; // 实际的堆结构
 
         private HashMap<Node, Integer> heapIndexMap;
@@ -157,12 +165,4 @@ public class DijkstraSample {
 
     }
 
-    private static class NodeRecord {
-        public Node node;
-        public int distance;
-        public NodeRecord(Node node, int distance) {
-            this.node = node;
-            this.distance = distance;
-        }
-    }
 }
