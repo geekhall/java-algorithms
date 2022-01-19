@@ -58,6 +58,72 @@ public class RobotWalkProblem {
         return walk(total, cur - 1, rest - 1, pos) + walk(total, cur + 1, rest - 1, pos);
     }
 
+    /**
+     * total个位置，从start点触发，还剩step步，返回最终能够到达pos的方法。
+     * 使用缓存优化的算法 (记忆化搜索 - 动态规划的一种)
+     *
+     * @param total 总个数，固定参数
+     * @param start 开始位置
+     * @param step  步数
+     * @param pos   位置
+     * @return      可行的方法数
+     */
+    public static int waysWithCache(int total, int start, int step, int pos) {
+        if (total < 2 || step < 1 || start < 1 || step > total || pos < 1 || pos > total)
+            return 0;
+
+        int[][] dp = new int[total + 1] [step + 1];
+        for ( int row = 0; row <= total; row++) {
+            for (int col = 0; col <= step; col++) {
+                dp[row][col] = -1;
+            }
+        }
+
+        // 总共total个位置，从start点触发，还剩step步，返回最终能够到达pos的方法。
+        return walkWithCache(total, start, step, pos, dp);
+    }
+
+
+    /**
+     * total个位置，从start点触发，还剩step步，返回最终能够到达pos的方法。
+     * 使用缓存优化的算法 (记忆化搜索 - 动态规划的一种)
+     *
+     * @param total 总个数，固定参数
+     * @param cur   当前位置
+     * @param rest  剩余步数
+     * @param pos   位置
+     * @return      可行的方法数
+     */
+    private static int walkWithCache(int total, int cur, int rest, int pos, int[][] dp) {
+
+        if (dp[cur][rest] != -1) {
+            return dp[cur][rest];
+        }
+        // 如果没有剩余步数了，当前cur位置就是最后的位置。
+        // 如果最后停在pos位置，那么之前做的移动是有效的
+        // 如果最后没在pos位置，那么之前做的移动是无效的
+        if (rest == 0) {
+            dp[cur][rest] = cur == pos ? 1 : 0;
+            return dp[cur][rest];
+        }
+
+        // 1位置只能右移
+        if (cur == 1) {
+            dp[cur][rest] = walkWithCache(total, 2, rest - 1, pos, dp);
+            return dp[cur][rest];
+        }
+
+        // total位置只能左移
+        if (cur == total){
+            dp[cur][rest] =  walkWithCache(total, total - 1, rest - 1, pos, dp);
+            return dp[cur][rest];
+        }
+
+        dp[cur][rest] = walkWithCache(total, cur - 1, rest - 1, pos, dp)
+                + walkWithCache(total, cur + 1, rest - 1, pos, dp);
+        return dp[cur][rest];
+    }
+
 
     public static void main(String[] args) {
         // 1 2 3 4 5 6 (答案为3)
@@ -65,5 +131,14 @@ public class RobotWalkProblem {
         // 3 => 4 => 3 => 4
         // 3 => 2 => 3 => 4
         System.out.println(ways(6, 3, 3, 4));
+        long start = System.currentTimeMillis();
+        System.out.println(waysWithCache(600, 300, 30, 310));
+        long end = System.currentTimeMillis();
+        System.out.println("Total cost : " + String.valueOf(end - start) + "ms");
+
+        start = System.currentTimeMillis();
+        System.out.println(ways(600, 300, 30, 310));
+        end = System.currentTimeMillis();
+        System.out.println("Total cost : " + String.valueOf(end - start) + "ms");
     }
 }
