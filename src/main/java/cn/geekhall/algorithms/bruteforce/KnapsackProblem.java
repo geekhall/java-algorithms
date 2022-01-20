@@ -68,12 +68,47 @@ public class KnapsackProblem {
         return Math.max(p1, p2);
     }
 
+    public static int getMaxValueDP(int[] w, int[] v, int bag) {
+        return processDP(w, v, bag);
+    }
+
+    /**
+     * 只剩下rest的空间了，
+     * index...货物自由选择，但不要超过rest的空间
+     * @param w
+     * @param v
+     * @param bag
+     * @return 能够获得的最大价值
+     */
+    private static int processDP(int[] w, int[] v, int bag) {
+        int N = w.length;
+        int[][] dp = new int[N + 1][bag + 1];
+
+        for (int i = N - 1; i >= 0; i--) {
+            for (int rest = 0; rest <= bag; rest++) {
+                dp[i][rest] = dp[i + 1][rest];
+                if (rest >= w[i]) {
+//                    dp[i][rest] = Math.max(dp[i][rest], v[i] + dp[i+1][rest]);
+
+                    int p1 = dp[i + 1][rest];
+                    int p2 = Integer.MIN_VALUE;
+                    if (rest >= w[i]) {
+                        p2 = v[i] + dp[i + 1][rest-w[i]];
+                    }
+                    dp[i][rest] = Math.max(p1,p2);
+                }
+            }
+        }
+        return dp[0][bag];
+    }
+
     public static void main(String[] args) {
         int[] weight = new int[]{1,4,5,6,8};
         int[] value = new int[]{2,6,9,3,10};
         int bag = 10;
         System.out.println(getMaxValue(weight,value,bag));
         System.out.println(getMaxValue2(weight,value,bag));
+        System.out.println(getMaxValueDP(weight,value,bag));
     }
 
 }
