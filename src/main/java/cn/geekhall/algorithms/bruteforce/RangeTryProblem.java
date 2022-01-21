@@ -55,4 +55,49 @@ public class RangeTryProblem {
 
         return Math.min(pickLeft, pickRight);
     }
+
+    public static int dpWay(int[] arr) {
+        if (arr == null || arr.length == 0) return 0;
+        int N = arr.length;
+
+        int[][] first = new int[N][N];
+        int[][] second = new int[N][N];
+
+        for (int i=0; i<N; i++) {
+            first[i][i] = arr[i];
+//            second[i][i] = 0; // 可省略
+        }
+        printMatrix(first);
+        System.out.println("");
+
+        for (int i=1; i < N; i++) {
+            int left = 0;
+            int right = i;
+            while (left < N && right < N){
+                first[left][right] = Math.max(arr[left] + second[left+1][right], arr[right] + second[left][right-1]);
+                second[left][right] = Math.min(first[left+1][right], first[left][right-1]);
+                left++;
+                right++;
+            }
+        }
+        printMatrix(first);
+        System.out.println("");
+        printMatrix(second);
+        return Math.max(first[0][N - 1], second[0][N - 1]);
+    }
+
+    public static void printMatrix(int[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                System.out.print(arr[i][j]);
+                System.out.print("\t");
+            }
+            System.out.println();
+        }
+    }
+    public static void main(String[] args) {
+        int[] arr = new int[]{1,4,99, 8};
+        System.out.println(win(arr));
+        System.out.println(dpWay(arr));
+    }
 }
