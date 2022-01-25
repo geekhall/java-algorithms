@@ -1,11 +1,15 @@
 package cn.geekhall.algorithms.bruteforce;
 
+/**
+ * 求解两个字符串的最长公共子序列
+ */
 public class LongestSubsequenceProblem{
 
     public static int getAnswer(char[] str1, char[] str2) {
         int[][] dp = new int[str1.length][str2.length];
         dp[0][0] = str1[0] == str2[0] ? 1 : 0;
 
+        // 第0列
         for (int i = 1; i < str1.length; i++) {
             dp[i][0] = Math.max(dp[i - 1][0], str1[i] == str2[0] ? 1 : 0);
         }
@@ -21,6 +25,15 @@ public class LongestSubsequenceProblem{
                 }
             } 
         }
-        return 0;
+        return dp[str1.length - 1][str2.length - 1];
+    }
+
+
+    public static void main(String[] args) {
+        String str1 = new String("abc12d34ac5a");
+        String str2 = new String("a1b2d3c45");
+
+        System.out.println(getAnswer(str1.toCharArray(), str2.toCharArray()));
+
     }
 }
