@@ -20,9 +20,12 @@ public class WashCupProblem {
                     Math.max(washLine, drinks[index]) + washTime,   // 送去洗
                     drinks[index] + volatileTime);                  // 等挥发
 
+        // 当前的咖啡洗完的时间。
         int wash = Math.max(washLine, drinks[index] + washTime);
         int next1 = process(drinks, washTime, volatileTime, index + 1, wash);
         int p1 = Math.max(wash,next1);
+
+        // 当前咖啡杯不洗挥发的时间
         int dry = drinks[index] + volatileTime;
         int next2= process(drinks,washTime, volatileTime, index + 1, washLine);
         int p2 = Math.max(dry, next2);
